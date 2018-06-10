@@ -28,6 +28,35 @@
       (add-hook 'prog-mode-hook 'nlinum-relative-mode))
   #+END_SRC
 
+* IDO
+** Enable IDO mode
+   Gives you a better way to access your buffers.
+   Instead of having a new window to select the buffers (C-x b), a bottom bar shows you the possible buffers, and as you type the name, the list gets filtered. On top of it, it also has tab compleation.
+   #+BEGIN_SRC emacs-lisp
+     (setq ido-enable-flex-matching nil)
+     (setq ido-create-new-buffer 'always)
+     (setq ido-everywhere t)
+     (ido-mode 1)
+   #+END_SRC
+** ido-vertical
+   Shows the possible buffers in a single column, which makes it easier to see the possible selection.
+   I've also selected the option to cycle through the elements using the C-n and C-p keys (down and up).
+   #+BEGIN_SRC emacs-lisp
+     (use-package ido-vertical-mode
+       :ensure t
+       :init
+       (ido-vertical-mode 1))
+     (setq ido-vertical-define-keys 'C-n-and-C-p-only)
+   #+END_SRC
+** smex
+   Like IDO but for M-x commands
+   #+BEGIN_SRC emacs-lisp
+     (use-package smex
+       :ensure t
+       :init (smex-initialize)
+       :bind
+       ("M-x" . smex)) 
+   #+END_SRC
 * which-key
   Shows hints as you go typing some commands.
   e.g.
@@ -83,3 +112,5 @@
   #+BEGIN_SRC emacs-lisp
     (electric-pair-mode 1)
   #+END_SRC
+  
+
