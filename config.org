@@ -1,0 +1,85 @@
+* Evil mode and related plugins
+  #+BEGIN_SRC emacs-lisp
+    ;; Evil and plugins
+    (use-package evil  ;; emulate vim text editing
+      :ensure t ;; install the evil package if not installed
+      :init ;; tweak evil's configuration before loading it
+      (setq evil-want-C-u-scroll t)
+      :config ;; tweak evil after loading it
+      (evil-mode 1)
+      ;; example how to map a command in normal mode (called 'normal state' in evil)
+      (define-key evil-normal-state-map (kbd ", w") 'evil-window-vsplit))
+
+    (use-package evil-surround  ;; create/delete/change brakets/parenthesis/tags
+      :ensure t
+      :config
+      (global-evil-surround-mode 1))
+
+    (use-package evil-commentary  ;; comment chunks or lines of text (gc, gcc)
+      :ensure t
+      :init
+      (evil-commentary-mode))
+
+    (use-package nlinum-relative  ;; set hybrid line numbering
+      :ensure t
+      :config
+      ;; something else you want
+      (nlinum-relative-setup-evil)
+      (add-hook 'prog-mode-hook 'nlinum-relative-mode))
+  #+END_SRC
+
+* which-key
+  Shows hints as you go typing some commands.
+  e.g.
+  You type C-x, and then it shows you in the bottom the next keys you could press next, and what they are for.
+  
+  #+BEGIN_SRC emacs-lisp
+    ;; Which-key (shows possible key combinations after pressing some chord)
+    (use-package which-key
+      :ensure t
+      :init
+      (which-key-mode))
+  #+END_SRC
+
+* Appearance
+** beacon
+   Draws attention on the cursor with a light spike
+   #+BEGIN_SRC emacs-lisp
+     (use-package beacon  ;; Lights the cursor position changes
+       :ensure t
+       :init
+       (beacon-mode 1))
+   #+END_SRC
+
+** Hides top bars with typical program options
+   #+BEGIN_SRC emacs-lisp
+     (tool-bar-mode -1)
+     (menu-bar-mode -1)
+     (scroll-bar-mode -1)
+   #+END_SRC
+
+** Better looking bullets for org-mode
+   #+BEGIN_SRC emacs-lisp
+     (use-package org-bullets
+       :ensure t
+       :config
+       (add-hook 'org-mode-hook (lambda () (org-bullets-mode))))
+   #+END_SRC
+
+** Emacs color themes
+   #+BEGIN_SRC emacs-lisp
+     ;; Themes
+     (use-package nimbus-theme
+       :ensure t
+       :defer t)
+     (use-package spacemacs-theme
+       :ensure t
+       :defer t)
+     (use-package oceanic-theme
+       :ensure t
+       :defer t)
+   #+END_SRC
+* Other settings
+  #+BEGIN_SRC emacs-lisp
+    (electric-pair-mode 1)
+  #+END_SRC
