@@ -13,28 +13,14 @@
   (package-install 'use-package))
 
 
-;; Themes
-(use-package nimbus-theme
-  :ensure t
-  :defer t)
-
-(use-package spacemacs-theme
-  :ensure t
-  :defer t)
-
-(use-package oceanic-theme
-  :ensure t
-  :defer t)
-
-
-;; Which-key (shows possible key combinations after pressing C-x)
+;; Which-key (shows possible key combinations after pressing some chord)
 (use-package which-key
   :ensure t
   :init
   (which-key-mode))
 
 
-;; Load evil and plugins
+;; Evil and plugins
 (use-package evil  ;; emulate vim text editing
   :ensure t ;; install the evil package if not installed
   :init ;; tweak evil's configuration before loading it
@@ -61,12 +47,24 @@
   (nlinum-relative-setup-evil)
   (add-hook 'prog-mode-hook 'nlinum-relative-mode))
 
+
 ;; Appearance
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
+;; Themes
+(use-package nimbus-theme
+  :ensure t
+  :defer t)
+(use-package spacemacs-theme
+  :ensure t
+  :defer t)
+(use-package oceanic-theme
+  :ensure t
+  :defer t)
 
-;; Behaviour
+
+;; Other emacs settings
 (electric-pair-mode 1)
 
 
