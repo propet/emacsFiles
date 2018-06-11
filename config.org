@@ -57,6 +57,17 @@
        :bind
        ("M-x" . smex)) 
    #+END_SRC
+* yasnippet
+  Put your own snippets in the snippets directory inside ~/.emacs.d/
+  To see the available snippets for your current mode: *M-x yas-describe-tables*.
+  To create a new snippet, you type: *M-x yas-new-snippet*.
+ #+BEGIN_SRC emacs-lisp
+   (use-package yasnippet
+     :ensure t
+     :config
+     (yas-global-mode 1)
+     (yas-load-directory "~/.emacs.d/snippets"))
+ #+END_SRC
 * which-key
   Shows hints as you go typing some commands.
   e.g.
