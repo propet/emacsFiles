@@ -108,9 +108,18 @@
        :ensure t
        :defer t)
    #+END_SRC
+** Modeline
+*** spaceline
+    #+BEGIN_SRC emacs-lisp
+      (use-package spaceline
+        :ensure t
+        :config
+        (require 'spaceline-config)
+        (spaceline-spacemacs-theme))
+    #+END_SRC
 * Other settings
 ** Electric pair mode
-   autocompletes pair of parenthesis or brackets
+   Autocompletes pair of parenthesis or brackets
   #+BEGIN_SRC emacs-lisp
     (electric-pair-mode 1)
   #+END_SRC
