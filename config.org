@@ -159,9 +159,9 @@
      (add-hook 'after-init-hook 'global-company-mode) 
    #+END_SRC
 
-** Python completion
+** elpy Python completion
    *WARNING*: 
-   *For emacs to find the path to anaconda python version, you have to launch emacs from the terminal.*
+   *For emacs to find the PATH to anaconda python version, you have to launch emacs from the terminal.*
    https://stackoverflow.com/questions/49741513/emacs-python-interpreter-is-not-set-correctly
    
    Usage:
@@ -179,7 +179,6 @@
    #+END_SRC
 ** C, C++ completion.
 *** company-irony
-
     Company completion backend for C, C++.
     Requires:
 	- clang
@@ -192,10 +191,8 @@
         (require 'company)
         (add-to-list 'company-backends 'company-irony)) 
     #+END_SRC
-
 *** irony
-
-    On the first run On the first run, irony-mode will ask you to build and install irony-server. 
+    On the first run, irony-mode will ask you to build and install irony-server. 
     To do so, type *M-x irony-install-server RET*.
     #+BEGIN_SRC emacs-lisp
       (use-package irony
@@ -207,6 +204,7 @@
     #+END_SRC
 
 
+    
     
     
     
