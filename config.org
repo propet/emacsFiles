@@ -10,24 +10,113 @@
       ;; example how to map a command in normal mode (called 'normal state' in evil)
       (define-key evil-normal-state-map (kbd ", w") 'evil-window-vsplit))
 
+  #+END_SRC
+  
+  Plugins:
+    + evil-surround
+      surround selections with S, and s.
+    + evil-commentary
+      comment selections with gc, and current line with gcc.
+    + evil-ident-plus
+      gives you idented text object. So you can select easily idented blocks of text (e.g. python identation blocks).
+      
+  #+BEGIN_SRC emacs-lisp
     (use-package evil-surround  ;; create/delete/change brakets/parenthesis/tags
-      :ensure t
-      :config
-      (global-evil-surround-mode 1))
+        :ensure t
+        :config
+        (global-evil-surround-mode 1))
 
     (use-package evil-commentary  ;; comment chunks or lines of text (gc, gcc)
-      :ensure t
-      :init
-      (evil-commentary-mode))
+        :ensure t
+        :init
+        (evil-commentary-mode))
 
+    (use-package evil-indent-plus
+      :ensure t
+      :config
+      (evil-indent-plus-default-bindings))
+  #+END_SRC
+  
+  Hybrid line numbering.
+  #+BEGIN_SRC emacs-lisp
     (use-package nlinum-relative  ;; set hybrid line numbering
       :ensure t
       :config
       ;; something else you want
       (nlinum-relative-setup-evil)
       (add-hook 'prog-mode-hook 'nlinum-relative-mode))
+      
   #+END_SRC
+    
+  
+    
+    
+* Completion
+** company
+   Shows the completion list a backend provides to him.
+   Mapped the cycling through the elements to C-n and C-p.
 
+   #+BEGIN_SRC emacs-lisp
+     (use-package company
+       :ensure t
+       :config
+       (setq company-idle-delay 0)
+       (setq company-minimun-prefix-length 3))
+
+     (with-eval-after-load 'company
+       (define-key company-active-map (kbd "M-n") nil)
+       (define-key company-active-map (kbd "M-p") nil)
+       (define-key company-active-map (kbd "C-n") #'company-select-next)
+       (define-key company-active-map (kbd "C-p") #'company-select-previous))
+   #+END_SRC
+
+   To use company-mode in all buffers, add the following line to your init file:
+   #+BEGIN_SRC emacs-lisp
+     (add-hook 'after-init-hook 'global-company-mode) 
+   #+END_SRC
+** elpy Python completion
+   *WARNING*: 
+   *For emacs to find the PATH to anaconda python version, you have to launch emacs from the terminal.*
+   https://stackoverflow.com/questions/49741513/emacs-python-interpreter-is-not-set-correctly
+   
+   Usage:
+   - C-c C-c inside a python file runs all of it in the interpreter.
+   - With a selection C-c C-c only runs that code in the interpreter.
+   #+BEGIN_SRC emacs-lisp
+     (use-package elpy
+       :ensure t
+       :config
+       (elpy-enable)) 
+
+     ;; Use the ipython as the interactive interpreter
+     (setq python-shell-interpreter "ipython"
+           python-shell-interpreter-args "-i --simple-prompt")
+   #+END_SRC
+** C, C++ completion.
+*** company-irony
+    Company completion backend for C, C++.
+    Requires:
+	- clang
+	- libclang
+	- cmake   
+    #+BEGIN_SRC emacs-lisp
+      (use-package company-irony
+        :ensure t
+        :config
+        (require 'company)
+        (add-to-list 'company-backends 'company-irony)) 
+    #+END_SRC
+*** irony
+    On the first run, irony-mode will ask you to build and install irony-server. 
+    To do so, type *M-x irony-install-server RET*.
+    #+BEGIN_SRC emacs-lisp
+      (use-package irony
+        :ensure t
+        :config
+	(add-hook 'c++-mode-hook 'irony-mode)
+        (add-hook 'c-mode-hook 'irony-mode)
+        (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)) 
+    #+END_SRC
 * IDO
 ** Enable IDO mode
    Shows you the possible buffers doing C-x b. Before, you had to do C-x C-b to show all the buffers in a new window.
@@ -134,74 +223,6 @@
   #+BEGIN_SRC emacs-lisp
     (electric-pair-mode 1)
   #+END_SRC
-  
-* Completion
-** company
-   Shows the completion list a backend provides to him.
-   Mapped the cycling through the elements to C-n and C-p.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package company
-       :ensure t
-       :config
-       (setq company-idle-delay 0)
-       (setq company-minimun-prefix-length 3))
-
-     (with-eval-after-load 'company
-       (define-key company-active-map (kbd "M-n") nil)
-       (define-key company-active-map (kbd "M-p") nil)
-       (define-key company-active-map (kbd "C-n") #'company-select-next)
-       (define-key company-active-map (kbd "C-p") #'company-select-previous))
-   #+END_SRC
-
-   To use company-mode in all buffers, add the following line to your init file:
-   #+BEGIN_SRC emacs-lisp
-     (add-hook 'after-init-hook 'global-company-mode) 
-   #+END_SRC
-
-** elpy Python completion
-   *WARNING*: 
-   *For emacs to find the PATH to anaconda python version, you have to launch emacs from the terminal.*
-   https://stackoverflow.com/questions/49741513/emacs-python-interpreter-is-not-set-correctly
-   
-   Usage:
-   - C-c C-c inside a python file runs all of it in the interpreter.
-   - With a selection C-c C-c only runs that code in the interpreter.
-   #+BEGIN_SRC emacs-lisp
-     (use-package elpy
-       :ensure t
-       :config
-       (elpy-enable)) 
-
-     ;; Use the ipython as the interactive interpreter
-     (setq python-shell-interpreter "ipython"
-           python-shell-interpreter-args "-i --simple-prompt")
-   #+END_SRC
-** C, C++ completion.
-*** company-irony
-    Company completion backend for C, C++.
-    Requires:
-	- clang
-	- libclang
-	- cmake   
-    #+BEGIN_SRC emacs-lisp
-      (use-package company-irony
-        :ensure t
-        :config
-        (require 'company)
-        (add-to-list 'company-backends 'company-irony)) 
-    #+END_SRC
-*** irony
-    On the first run, irony-mode will ask you to build and install irony-server. 
-    To do so, type *M-x irony-install-server RET*.
-    #+BEGIN_SRC emacs-lisp
-      (use-package irony
-        :ensure t
-        :config
-	(add-hook 'c++-mode-hook 'irony-mode)
-        (add-hook 'c-mode-hook 'irony-mode)
-        (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)) 
-    #+END_SRC
 
 
     
