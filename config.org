@@ -48,9 +48,6 @@
       
   #+END_SRC
     
-  
-    
-    
 * Completion
 ** company
    Shows the completion list a backend provides to him.
@@ -93,6 +90,10 @@
            python-shell-interpreter-args "-i --simple-prompt")
    #+END_SRC
 ** C, C++ completion.
+*** TODO cmake-id 
+    Make Emacs a full IDE for C and C++.
+    Requires: rtags, flycheck, irony.
+    https://www.youtube.com/watch?v=5FQwQ0QWBTU
 *** company-irony
     Company completion backend for C, C++.
     Requires:
@@ -117,6 +118,15 @@
         (add-hook 'c-mode-hook 'irony-mode)
         (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)) 
     #+END_SRC
+* flycheck
+Out of the box Flycheck supports over 40 different programming languages with more than 80 different syntax checking tools, and comes with a simple interface to define new syntax checkers.
+Many 3rd party extensions provide new syntax checkers and other features like alternative error displays or mode line indicators.
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck
+    :ensure t
+    :config
+    (global-flycheck-mode))
+#+END_SRC
 * IDO
 ** Enable IDO mode
    Shows you the possible buffers doing C-x b. Before, you had to do C-x C-b to show all the buffers in a new window.
@@ -170,6 +180,21 @@
       (which-key-mode))
   #+END_SRC
 
+* Org mode
+** Better looking bullets for org-mode
+   #+BEGIN_SRC emacs-lisp
+     (use-package org-bullets
+       :ensure t
+       :config
+       (add-hook 'org-mode-hook (lambda () (org-bullets-mode))))
+   #+END_SRC
+** column view headings
+   #+BEGIN_SRC emacs-lisp
+     ;; Set default column view headings: Task Priority Effort Clock_Summary
+     ;; To see column view: C-c C-x C-c
+     ;; To quit column view: q
+     (setq org-columns-default-format "%50ITEM(Task) %2PRIORITY %10Effort(Effort){:} %10CLOCKSUM")
+   #+END_SRC
 * Appearance
 ** beacon
    Draws attention on the cursor with a light spike
@@ -185,14 +210,6 @@
      (tool-bar-mode -1)
      (menu-bar-mode -1)
      (scroll-bar-mode -1)
-   #+END_SRC
-
-** Better looking bullets for org-mode
-   #+BEGIN_SRC emacs-lisp
-     (use-package org-bullets
-       :ensure t
-       :config
-       (add-hook 'org-mode-hook (lambda () (org-bullets-mode))))
    #+END_SRC
 
 ** Emacs color themes
@@ -225,7 +242,6 @@
   #+END_SRC
 
 
-    
     
     
     
